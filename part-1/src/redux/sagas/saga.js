@@ -1,4 +1,4 @@
-import { takeEvery, take, put, call, fork} from "redux-saga/effects";
+import { takeEvery, take, put, call, fork, spawn} from "redux-saga/effects";
 
 //take indicate to dispatch to wait define action (take is block effect)
 // takeevery creates and starts worker saga on every action dispatch (block because inside used fork + take)
@@ -7,6 +7,7 @@ import { takeEvery, take, put, call, fork} from "redux-saga/effects";
 // put calls dispatch with action and transfer to store
 // call implements function. If function returns promise it stope saga and waiting prosime is resolve (call is block effect because he waits result)
 // fork is not blocked method and its main for parallel between sagas
+// spawn is the same like fork (not block) but if you have mistake in one of the saga your last sagas would be work. In fork process is stopped.
 
 async function swapiGet(pattern) {
   const request = await fetch(`https://swapi.dev/api/${pattern}`);
@@ -26,6 +27,7 @@ async function swapiGet(pattern) {
 
 //second variant
 export function* loadPeoples() {
+  throw new Error();
   const people = yield call(swapiGet, 'people');
   yield put({ type: 'SET_PEOPLE', payload: people.results })
 }
