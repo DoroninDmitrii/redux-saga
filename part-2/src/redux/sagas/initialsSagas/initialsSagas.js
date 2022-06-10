@@ -1,4 +1,4 @@
-import { all, call, delay, fork, spawn } from 'redux-saga/effects'
+import { all, call, delay, fork, put, spawn } from 'redux-saga/effects'
 
 // all starts all effects parallel and waits when completed
 
@@ -13,7 +13,6 @@ function* auth() {
 function* loadUsers() {
   const request = yield call(fetch, 'https://swapi.dev/api/people');
   const data = yield call([request, request.json]);
-
   console.log('data', data);
 }
 
